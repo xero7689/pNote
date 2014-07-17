@@ -6,6 +6,8 @@ PNote - Python Command-Line Note App
 
 Still under develope...
 
+7-17-2014-01:33 - output-note
+
 author: xero
 mail: volleyp7689@gmail.com
 last edit: July 17 2014
@@ -15,9 +17,12 @@ import datetime
 import tempfile
 import getpass
 import os
+import copy
 
 _LINE_BREAK = "\n"
 _DEFAULT_ENCODE = "utf-8"
+_DEFAULT_DECODE = "utf-8"
+_FILENAME_EXT = ".pn"
 
 _USER = getpass.getuser()
 _USER_HOME_DIR = os.path.expanduser("~")
@@ -29,18 +34,36 @@ def init_dir():
     if not os.path.exists(_DEFAULT_PNOTE_DIR):
         os.makedir(_DEFAULT_PNOTE_DIR)
 
-def output_note():
-    pass
+def output_note(PNote):
+    
+    # file name
+    fn = os.path.join(_DEFAULT_PNOTE_DIR, PNote.title + _FILENAME_EXT)
+    
+    # check file is existed, if exist than modify file name
+    while os.path.isfile(fn):
+        fn = os.path.join(fn, "-rp")
+    
+    # seek and decode Pnote
+    # should use a copy of pnote.
+    output_note = copy.copy(PNote)
+    output_note.content.seek(0)
+    output = output_note.content.read().decode(_DEFAULT_DECODE)
+    
+    # create file
+    with open(fn, "a+") as f:
+        f.write(output)
     
 def main():
-    pass
+    new = newNote()
+    output_note(new)
 
-class PNote:
+class newNote:
     
     def __init__(self, title = "", time = _NOW, tag = []):
         self.title = title #string
         self.time = time #list
         self.tag = tag #list? or dict ?
+        self.takeNote()
     
     def addTag(self):
         pass
