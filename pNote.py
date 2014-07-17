@@ -18,6 +18,10 @@ import tempfile
 import getpass
 import os
 import copy
+import sys
+
+_VERSION = "1.0"
+_AUTHOR = "xero"
 
 _LINE_BREAK = "\n"
 _DEFAULT_ENCODE = "utf-8"
@@ -30,40 +34,7 @@ _DEFAULT_PNOTE_DIR = os.path.join(_USER_HOME_DIR, "pNote")
 
 _NOW = datetime.datetime.now().ctime().split()
 
-def main():
-    pass
-
-def init_dir():
-    if not os.path.exists(_DEFAULT_PNOTE_DIR):
-        os.makedir(_DEFAULT_PNOTE_DIR)
-
-def output(PNote):
-    
-    # file name
-    fn = os.path.join(_DEFAULT_PNOTE_DIR, PNote.title + _FILENAME_EXT)
-    
-    # check file is existed, if exist than modify file name
-    while os.path.isfile(fn):
-        fn = os.path.join(fn, "-rp")
-    
-    # seek and decode Pnote
-    # should use a copy of pnote.
-    output_note = copy.copy(PNote)
-    output_note.content.seek(0)
-    output = output_note.content.read().decode(_DEFAULT_DECODE)
-    
-    # create file and output
-    with open(fn, "a+") as f:
-        # should format out-put
-        f.write("Title: " + output_note.title + "\n")
-        
-        date = ""
-        for i in output_note.time:
-            date = date + i + "-"
-        f.write("Date: " + date + "\n")
-        
-        f.write("Content: \n")
-        f.write(output)
+NOTE_LIST = []
 
 class newNote:
     
@@ -106,5 +77,61 @@ class newNote:
         #self.content
         self.content = tf
 
+def init_dir():
+    if not os.path.exists(_DEFAULT_PNOTE_DIR):
+        os.makedir(_DEFAULT_PNOTE_DIR)
+
+def add():
+    new = newNote()
+    NOTE_LIST.append(new)
+
+def output():
+    PNote = NOTE_LIST.pop()
+    
+    # file name
+    fn = os.path.join(_DEFAULT_PNOTE_DIR, PNote.title + _FILENAME_EXT)
+    
+    # check file is existed, if exist than modify file name
+    while os.path.isfile(fn):
+        fn = os.path.join(fn, "-rp")
+    
+    # seek and decode Pnote
+    # should use a copy of pnote.
+    output_note = copy.copy(PNote)
+    output_note.content.seek(0)
+    output = output_note.content.read().decode(_DEFAULT_DECODE)
+    
+    # create file and output
+    with open(fn, "a+") as f:
+        # should format out-put
+        f.write("Title: " + output_note.title + "\n")
+        
+        date = ""
+        for i in output_note.time:
+            date = date + i + "-"
+        f.write("Date: " + date + "\n")
+        
+        f.write("Content: \n")
+        f.write(output)
+
+def _quit():
+    sys.exit("Bye!")
+    
+command = dict(a = add, o = output, q = _quit)
+
+def commandLine():
+    print("Welcome to pNote-" + _VERSION)
+    print("Choose a command:")
+    while True:
+        print("(A)dd (O)utput (Q)uit")
+        action = input("->") #user input command
+        try:
+            command[action]()
+        except KeyError:
+            print("command error, choose again!")
+            
+def main():
+    commandLine()
+    
 if __name__ == "__main__":
     main()
