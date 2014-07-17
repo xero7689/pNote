@@ -30,11 +30,14 @@ _DEFAULT_PNOTE_DIR = os.path.join(_USER_HOME_DIR, "pNote")
 
 _NOW = datetime.datetime.now().ctime().split()
 
+def main():
+    pass
+
 def init_dir():
     if not os.path.exists(_DEFAULT_PNOTE_DIR):
         os.makedir(_DEFAULT_PNOTE_DIR)
 
-def output_note(PNote):
+def output(PNote):
     
     # file name
     fn = os.path.join(_DEFAULT_PNOTE_DIR, PNote.title + _FILENAME_EXT)
@@ -49,13 +52,18 @@ def output_note(PNote):
     output_note.content.seek(0)
     output = output_note.content.read().decode(_DEFAULT_DECODE)
     
-    # create file
+    # create file and output
     with open(fn, "a+") as f:
+        # should format out-put
+        f.write("Title: " + output_note.title + "\n")
+        
+        date = ""
+        for i in output_note.time:
+            date = date + i + "-"
+        f.write("Date: " + date + "\n")
+        
+        f.write("Content: \n")
         f.write(output)
-    
-def main():
-    new = newNote()
-    output_note(new)
 
 class newNote:
     
