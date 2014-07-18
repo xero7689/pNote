@@ -42,11 +42,16 @@ class newNote:
     def __init__(self, title = "", time = _NOW, tag = []):
         self.title = title #string
         self.time = time #list
-        self.tag = tag #list? or dict ?
+        self.tags = tag #list? or dict ?
         self.takeNote()
     
-    def addTag(self):
-        pass
+    def addTag(self, *tags):
+        for tag in tags:
+            self.tags.append(tag)
+        print("Add tag: ", end = "")
+        for tag in self.tags:
+            print(tag, end=",")
+            
     def takeNote(self):
         # message to user
         print("pNote - Start !")
@@ -78,8 +83,6 @@ class newNote:
         #self.content
         self.content = tf
 
-class diary:
-    pass
     
 '''Command'''
 def init_dir():
@@ -129,7 +132,7 @@ def listNote():
     print(NOTE_LIST)
 
 def _quit():
-    sys.exit("Bye!")
+    sys.exit("Bye!\n")
     
 command = dict(a = add, 
                 o = output,
@@ -143,7 +146,7 @@ def commandLine():
     while True:
         print("\nCommand:")
         print("(a)Add (o)Output (ll)List (q)Quit")
-        action = input("->") #user input command
+        action = input("->")
         try:
             command[action]()
         except KeyError:
