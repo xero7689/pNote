@@ -114,16 +114,27 @@ def output():
         f.write("Content: \n")
         f.write(output)
 
+def listNote():
+    for note in os.listdir(_DEFAULT_PNOTE_DIR):
+        if note.endswith(_FILENAME_EXT):
+            NOTE_LIST.append(note)
+    print(NOTE_LIST)
+
 def _quit():
     sys.exit("Bye!")
     
-command = dict(a = add, o = output, q = _quit)
+command = dict(a = add, 
+                o = output,
+                ll = listNote,
+                q = _quit)
 
 def commandLine():
-    print("Welcome to pNote-" + _VERSION)
-    print("Choose a command:")
+    ''' prompting message '''
+    print("\nWelcome to pNote-" + _VERSION)
+    
     while True:
-        print("(A)dd (O)utput (Q)uit")
+        print("\nCommand:")
+        print("(a)Add (o)Output (ll)List (q)Quit")
         action = input("->") #user input command
         try:
             command[action]()
