@@ -36,6 +36,7 @@ _NOW = datetime.datetime.now().ctime().split()
 
 NOTE_LIST = []
 
+'''Data structure'''
 class newNote:
     
     def __init__(self, title = "", time = _NOW, tag = []):
@@ -77,6 +78,10 @@ class newNote:
         #self.content
         self.content = tf
 
+class diary:
+    pass
+    
+'''Command'''
 def init_dir():
     if not os.path.exists(_DEFAULT_PNOTE_DIR):
         os.makedir(_DEFAULT_PNOTE_DIR)
@@ -90,6 +95,9 @@ def output():
     
     # file name
     fn = os.path.join(_DEFAULT_PNOTE_DIR, PNote.title + _FILENAME_EXT)
+    
+    # check directory
+    init_dir()
     
     # check file is existed, if exist than modify file name
     while os.path.isfile(fn):
