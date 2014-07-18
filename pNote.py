@@ -4,10 +4,6 @@
 """
 PNote - Python Command-Line Note App
 
-Still under develope...
-
-7-17-2014-01:33 - output-note
-
 author: xero
 mail: volleyp7689@gmail.com
 last edit: July 17 2014
