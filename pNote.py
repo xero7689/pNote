@@ -83,7 +83,8 @@ class Note:
         if not self.check_filename():
             print("This note doesn't have a filename.")
             return
-
+        
+        self.time = _NOW
         data = (self.title, self.time, self.tags, self.content)
             
         with open(self.filename, "ba+") as f:
