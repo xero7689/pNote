@@ -84,11 +84,11 @@ class Note:
             print("This note doesn't have a filename.")
             return
 
-        data = (self.title, self.time, self.tags)
+        data = (self.title, self.time, self.tags, self.content)
             
         with open(self.filename, "ba+") as f:
             pickle.dump(data, f)
-            
+    
         
     
 '''Command'''
