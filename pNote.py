@@ -90,7 +90,7 @@ class Note:
         with open(self.filename, "ba+") as f:
             pickle.dump(data, f)
     
-        
+    def load(self, filename):
     
 '''Command'''
 def init_dir():
